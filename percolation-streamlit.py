@@ -47,13 +47,13 @@ st.plotly_chart(heatmap, use_container_width=True)
 st.write("### Connected components")
 components = connected_comp(lattice<p)
 labels, _ = label(lattice<p)
-c,s = np.unique(labels[labels!=0], return_counts=True)
-biglabels = c[np.argsort(s)]
-biglabels = biglabels[-24:]
-mask = np.isin(labels, biglabels)
-labels = np.where(mask, labels, 0)
-zero_indices = np.where(labels == 0)
-labels[zero_indices] = np.random.randint(1, 100, size=len(zero_indices[0]))
+#c,s = np.unique(labels[labels!=0], return_counts=True)
+#biglabels = c[np.argsort(s)]
+#biglabels = biglabels[-24:]
+#mask = np.isin(labels, biglabels)
+#labels = np.where(mask, labels, 0)
+#zero_indices = np.where(labels == 0)
+#labels[zero_indices] = np.random.randint(1, 100, size=len(zero_indices[0]))
 comp_heatmap = go.Figure(data=go.Heatmap(z=labels, colorscale=px.colors.qualitative.Light24))
 comp_heatmap.update_layout(xaxis_title='X', yaxis_title='Y',
                       autosize=True, height=700)
