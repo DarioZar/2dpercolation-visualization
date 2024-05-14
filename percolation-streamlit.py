@@ -31,6 +31,7 @@ with st.sidebar:
     N = st.number_input("Size of the lattice", min_value=10, value=100, max_value=1000, step=10)
     p = st.slider("Occupation probability", min_value=0.0, max_value=1.0, value=0.5, step=0.01)
     Nps = st.number_input("Number of probability points", min_value=10, value=100, max_value=1000, step=10)
+    Nr = st.number_input("Number of realizations", min_value=10, value=100, max_value=1000, step=10)
 
 
 lattice = np.random.rand(N, N)
@@ -51,7 +52,7 @@ st.write("Mean component size:", np.mean(components)/N**2 * 100, "%")
 st.write("## Show Connected Components at different occupation probabilities:")
 
 ps = np.linspace(0.01, 1, int(Nps))
-components = simulate(N, ps, 1)
+components = simulate(N, ps, Nr)
 
 lcc = components[:,0]
 slcc = components[:,1]
