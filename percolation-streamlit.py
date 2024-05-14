@@ -58,9 +58,11 @@ mean = components[:,2]
 
 fig_lcc = go.Figure(data=go.Scatter(x=ps, y=lcc, mode='lines', name='Largest Component'))
 fig_lcc.update_layout(title='Largest Connected Component', xaxis_title='Occupation Probability', yaxis_title='Size')
+fig_lcc.add_vline(x=0.5927, line_dash="dash", line_color="red", annotation_text="Percolation: 0.5927", annotation_position="top left")
 
 fig_slcc = go.Figure(data=go.Scatter(x=ps, y=slcc, mode='lines', name='Second Largest Component'))
 fig_slcc.update_layout(title='Second Largest Connected Component', xaxis_title='Occupation Probability', yaxis_title='Size')
+fig_slcc.add_vline(x=0.5927, line_dash="dash", line_color="red", annotation_text="Percolation: 0.5927", annotation_position="top left")
 
 fig_mean = go.Figure(data=go.Scatter(x=ps, y=mean, mode='lines', name='Mean Component Size'))
 fig_mean.update_layout(title='Mean Component Size', xaxis_title='Occupation Probability', yaxis_title='Size')
