@@ -43,8 +43,13 @@ heatmap.update_layout(title='Occupation Matrix', xaxis_title='X', yaxis_title='Y
 heatmap.update_traces(showscale=False)
 st.plotly_chart(heatmap, use_container_width=True)
 
-st.write("Dimensions of the connected components")
+st.write("Connected components")
 components = connected_comp(lattice<p)
+labels, _ = label(lattice<p)
+comp_heatmap = go.Figure(data=go.Heatmap(z=labels, colorscale='Light24'))
+comp_heatmap.update_layout(xaxis_title='X', yaxis_title='Y',
+                      autosize=True, height=700)
+st.plotly_chart(comp_heatmap, use_container_width=True)
 st.write("Largest component:", components[-1]/N**2 * 100, "%")
 st.write("Second largest component:", components[-2]/N**2 * 100, "%")
 st.write("Mean component size:", np.mean(components)/N**2 * 100, "%")
