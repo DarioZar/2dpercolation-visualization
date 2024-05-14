@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 from scipy.ndimage import label
 import plotly.graph_objects as go
+import plotly.express as px
 
 def connected_comp(lat):
     l, _ = label(lat)
@@ -43,12 +44,20 @@ heatmap.update_layout(title='Occupation Matrix', xaxis_title='X', yaxis_title='Y
 heatmap.update_traces(showscale=False)
 st.plotly_chart(heatmap, use_container_width=True)
 
-st.write("Connected components")
+st.write("### Connected components")
 components = connected_comp(lattice<p)
 labels, _ = label(lattice<p)
-comp_heatmap = go.Figure(data=go.Heatmap(z=labels, colorscale='Light24'))
+c,s = np.unique(labels[labels!=0], return_counts=True)
+biglabels = c[np.argsort(s)]
+biglabels = biglabels[-24:]
+mask = np.isin(labels, biglabels)
+labels = np.where(mask, labels, 0)
+zero_indices = np.where(labels == 0)
+labels[zero_indices] = np.random.randint(1, 100, size=len(zero_indices[0]))
+comp_heatmap = go.Figure(data=go.Heatmap(z=labels, colorscale=px.colors.qualitative.Light24))
 comp_heatmap.update_layout(xaxis_title='X', yaxis_title='Y',
                       autosize=True, height=700)
+comp_heatmap.update_traces(showscale=False)
 st.plotly_chart(comp_heatmap, use_container_width=True)
 st.write("Largest component:", components[-1]/N**2 * 100, "%")
 st.write("Second largest component:", components[-2]/N**2 * 100, "%")
