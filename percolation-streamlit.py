@@ -63,24 +63,24 @@ st.write("Largest component:", components[-1]/N**2 * 100, "%")
 st.write("Second largest component:", components[-2]/N**2 * 100, "%")
 st.write("Mean component size:", np.mean(components)/N**2 * 100, "%")
 
-'''
-st.write("## Component size distribution")
-from scipy.optimize import curve_fit
-hist = np.histogram(components, bins=np.arange(1, np.max(components)+1))
-def powerlaw(x, a, b, c):
-    return a * x**b +c
 
-fit_x = hist[0][hist[0]>15]
-fit_y = hist[1][1:][hist[0]>15]
-popt, _ = curve_fit(powerlaw, fit_x, fit_y, p0=[1, -2, 1])
-st.write("Fit parameters: a=%5.3f, b=%5.3f, c=%5.3f" % tuple(popt))
-fig = go.Figure(data=go.Scatter(x=hist[0], y=hist[1]))
-fig.add_trace(go.Scatter(x=fit_x, y=powerlaw(fit_x, *popt), mode='lines', name='Fit'))
-fig.update_layout(title='Component Size Distribution', xaxis_title='Size', yaxis_title='Frequency')
-fig.update_xaxes(type="log")
-fig.update_yaxes(type="log")
-st.plotly_chart(fig, use_container_width=True)
-'''
+#st.write("## Component size distribution")
+#from scipy.optimize import curve_fit
+#hist = np.histogram(components, bins=np.arange(1, np.max(components)+1))
+#def powerlaw(x, a, b, c):
+#    return a * x**b +c
+#
+#fit_x = hist[0][hist[0]>15]
+#fit_y = hist[1][1:][hist[0]>15]
+#popt, _ = curve_fit(powerlaw, fit_x, fit_y, p0=[1, -2, 1])
+#st.write("Fit parameters: a=%5.3f, b=%5.3f, c=%5.3f" % tuple(popt))
+#fig = go.Figure(data=go.Scatter(x=hist[0], y=hist[1]))
+#fig.add_trace(go.Scatter(x=fit_x, y=powerlaw(fit_x, *popt), mode='lines', name='Fit'))
+#fig.update_layout(title='Component Size Distribution', xaxis_title='Size', yaxis_title='Frequency')
+#fig.update_xaxes(type="log")
+#fig.update_yaxes(type="log")
+#st.plotly_chart(fig, use_container_width=True)
+
 
 st.write("## Show Connected Components at different occupation probabilities:")
 
