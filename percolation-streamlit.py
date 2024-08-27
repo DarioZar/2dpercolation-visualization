@@ -16,7 +16,7 @@ def simulate(N, ps, iters=100):
         components = [connected_comp(lat<p) for p in ps]
         lcc = np.array([c[-1] if len(c)>0 else 0 for c in components])
         slcc = np.array([c[-2] if len(c)>1 else 0 for c in components])
-        mean = np.array([np.mean(c) for c in components])
+        mean = np.array([np.mean(c[:-1]) for c in components])
         comp += np.vstack([np.array([lcc, slcc, mean]).T])
     return comp/iters
 
@@ -63,6 +63,25 @@ st.write("Largest component:", components[-1]/N**2 * 100, "%")
 st.write("Second largest component:", components[-2]/N**2 * 100, "%")
 st.write("Mean component size:", np.mean(components)/N**2 * 100, "%")
 
+'''
+st.write("## Component size distribution")
+from scipy.optimize import curve_fit
+hist = np.histogram(components, bins=np.arange(1, np.max(components)+1))
+def powerlaw(x, a, b, c):
+    return a * x**b +c
+
+fit_x = hist[0][hist[0]>15]
+fit_y = hist[1][1:][hist[0]>15]
+popt, _ = curve_fit(powerlaw, fit_x, fit_y, p0=[1, -2, 1])
+st.write("Fit parameters: a=%5.3f, b=%5.3f, c=%5.3f" % tuple(popt))
+fig = go.Figure(data=go.Scatter(x=hist[0], y=hist[1]))
+fig.add_trace(go.Scatter(x=fit_x, y=powerlaw(fit_x, *popt), mode='lines', name='Fit'))
+fig.update_layout(title='Component Size Distribution', xaxis_title='Size', yaxis_title='Frequency')
+fig.update_xaxes(type="log")
+fig.update_yaxes(type="log")
+st.plotly_chart(fig, use_container_width=True)
+'''
+
 st.write("## Show Connected Components at different occupation probabilities:")
 
 ps = np.linspace(0.01, 1, int(Nps))
@@ -81,7 +100,10 @@ fig_slcc.update_layout(title='Second Largest Connected Component', xaxis_title='
 fig_slcc.add_vline(x=0.5927, line_dash="dash", line_color="red", annotation_text="Percolation: 0.5927", annotation_position="top left")
 
 fig_mean = go.Figure(data=go.Scatter(x=ps, y=mean, mode='lines', name='Mean Component Size'))
-fig_mean.update_layout(title='Mean Component Size', xaxis_title='Occupation Probability', yaxis_title='Size')
+fig_mean.update_layout(title='Mean Component Size', xaxis_title='P', yaxis_title='Size')
+fig_mean.add_vline(x=0.5927, line_dash="dash", line_color="red", annotation_text="Percolation: 0.5927", annotation_position="top left")
+fig_mean.update_xaxes(type="log")
+fig_mean.update_yaxes(type="log")
 
 st.plotly_chart(fig_lcc, use_container_width=True)
 st.plotly_chart(fig_slcc, use_container_width=True)
