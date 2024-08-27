@@ -99,9 +99,9 @@ fig_slcc = go.Figure(data=go.Scatter(x=ps, y=slcc, mode='lines', name='Second La
 fig_slcc.update_layout(title='Second Largest Connected Component', xaxis_title='Occupation Probability', yaxis_title='Size')
 fig_slcc.add_vline(x=0.5927, line_dash="dash", line_color="red", annotation_text="Percolation: 0.5927", annotation_position="top left")
 
-fig_mean = go.Figure(data=go.Scatter(x=ps, y=mean, mode='lines', name='Mean Component Size'))
-fig_mean.update_layout(title='Mean Component Size', xaxis_title='P', yaxis_title='Size')
-fig_mean.add_vline(x=0.5927, line_dash="dash", line_color="red", annotation_text="Percolation: 0.5927", annotation_position="top left")
+fig_mean = go.Figure(data=go.Scatter(x=(ps-0.5927), y=mean, mode='lines', name='Mean Component Size'))
+fig_mean.update_layout(title='Mean Component Size', xaxis_title='P-P_c', yaxis_title='Size')
+#fig_mean.add_vline(x=0.5927, line_dash="dash", line_color="red", annotation_text="Percolation: 0.5927", annotation_position="top left")
 fig_mean.update_xaxes(type="log")
 fig_mean.update_yaxes(type="log")
 
